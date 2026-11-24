@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+/tmp/
+/STEP/
+/STL/
+/GLB/
+/3MF/
+/DXF/
+.DS_Store
