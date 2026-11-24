@@ -8,7 +8,7 @@ Model each object as it sits in storage, one at a time. The equipment models rep
 | 2 | [Stack of V60 filter papers](../equipment/coffee/v60_filters.md) | Measured quarter-circle stack modeled; holder orientation open |
 | 3 | [Manual WDT tool](../equipment/coffee/wdt.md) | Grip and needle reach modeled; [open-collar hanger](concepts/wdt_open_collar.svg) selected; relaxed needle spread unmeasured |
 | 4 | [Normcore V4 tamper cap](../equipment/coffee/normcore_tamper_cap.md) | Cap exterior modeled; the cap, not the 58.5 mm tamper base, locates in the tray |
-| 5 | Dosing ring / funnel | Queued |
+| 5 | [Dosing ring](../equipment/coffee/dosing_ring.md) | Straight ring modeled, including its through bore |
 | 6 | Portafilter with basket and handle | Queued |
 | 7 | KINGrinder K6 with crank and knob | Queued |
 
