@@ -3,8 +3,9 @@
 import build123d as bd
 from cad import model
 
-from coffee_tray.holders import BASE_ALIGN, NEEDLE_GAP, open_wdt_hanger, two_way_riser
+from coffee_tray.holders import BASE_ALIGN, NEEDLE_GAP, two_way_riser
 from coffee_tray.portafilter_poses import storage_pose, tamping_pose
+from coffee_tray.wdt_cape import ROOT_FILLET, cape
 from equipment.coffee import scale, v60_filters, wdt
 
 WIDTH, DEPTH, THICKNESS = 127.0, 228.6, 10.0
@@ -36,6 +37,7 @@ def deck():
     )
     # A small round-over softens the silhouette; maximum thickness stays 10 mm.
     plate = bd.fillet(plate.edges().group_by(bd.Axis.Z)[-1], radius=1.6)
+    plate = bd.chamfer(plate.edges().group_by(bd.Axis.Z)[0], length=0.6)
     plate -= _slot(SCALE_X, scale.THICKNESS, scale.LENGTH)
     plate -= _slot(PAPER_X + v60_filters.STACK_THICKNESS / 2,
                    v60_filters.STACK_THICKNESS, v60_filters.FILTER_RADIUS)
@@ -75,7 +77,9 @@ def _paper_wall(x, crown, scoop):
         bd.Bezier((front + 21, crown), (front + 6, crown),
                   (front + 4, 23), (front, 19))
         bd.Line((front, 19), (front, 0))
-    return bd.Pos(X=x) * (bd.Plane.YZ * bd.extrude(bd.Face(outline.wire()), amount=WALL))
+    side = bd.Pos(X=x) * (bd.Plane.YZ * bd.extrude(bd.Face(outline.wire()), amount=WALL))
+    curved_lips = [e for e in side.edges() if e.geom_type in (bd.GeomType.BEZIER, bd.GeomType.BSPLINE)]
+    return bd.fillet(curved_lips, radius=0.55)
 
 
 def _paper_pocket():
@@ -105,12 +109,14 @@ def station():
     # A narrow flared foot meets the deck; bearing surfaces stay unchanged.
     foot = bd.Cone(36.5, 34.5, 3.5, align=BASE_ALIGN)
     foot -= bd.Cylinder(31, 3.5, align=BASE_ALIGN)
-    return _finish(bd.Pos(*PF, 0) * (two_way_riser() + foot), "Reversible head seat")
+    seat = two_way_riser() + foot
+    seat = bd.chamfer(seat.edges().group_by(bd.Axis.Z)[-1], length=0.45)
+    return _finish(bd.Pos(*PF, 0) * seat, "Reversible head seat")
 
 
 @model
 def hanger():
-    return _finish(bd.Pos(*WDT, 0) * open_wdt_hanger(post_radius=1.8), "Open WDT hanger")
+    return _finish(bd.Pos(*WDT, 0) * cape().shape, "Open WDT cape")
 
 
 def fixtures():
@@ -132,12 +138,33 @@ def groups(tamping=False):
 
 @model
 def empty():
-    return bd.Compound(label="Compact tray, empty", children=list(fixtures().values()))
+    parts = fixtures()
+    support = parts["hanger"]
+    foot_edges = [e for e in support.edges() if e.bounding_box().max.Z < 1e-5]
+    joined = parts["deck"].fuse(support)
+    # Find the actual re-entrant seam after union, not the edge of a loose post.
+    root_edges = [e for e in joined.edges()
+                  if abs(e.bounding_box().min.Z) < 1e-5 and abs(e.bounding_box().max.Z) < 1e-5
+                  and any(f.distance_to(e.position_at(0.5)) < 1e-5 for f in foot_edges)]
+    joined = bd.fillet(root_edges, radius=ROOT_FILLET)
+    tray = joined.fuse(parts["seat"], *parts["files"].solids())
+    assert tray.is_valid and len(tray.solids()) == 1, "tray must be one watertight solid"
+    return _finish(tray, "Compact tray with integrated cape")
+
+
+@model
+def bed_ready():
+    return _finish(bd.Pos(Z=THICKNESS) * empty().shape, "Compact four-tool tray")
+
+
+def assembled(tamping=False):
+    parts = groups(tamping)
+    return {"tray": empty().shape, **{k: parts[k] for k in ("portafilter", "WDT", "scale", "papers")}}
 
 
 @model
 def parked():
-    return bd.Compound(label="Compact tray, parked", children=list(groups().values()))
+    return bd.Compound(label="Compact tray, parked", children=list(assembled().values()))
 
 
 def thin_packet(right=False):
@@ -151,18 +178,19 @@ def thin_packet(right=False):
 
 @model
 def nearly_empty():
-    pieces = groups()
+    pieces = assembled()
     pieces["papers"] = thin_packet(right=True)
     return bd.Compound(label="Compact tray, nearly empty filter pocket", children=list(pieces.values()))
 
 
 @model
 def tamp():
-    return bd.Compound(label="Compact tray, tamping", children=list(groups(True).values()))
+    return bd.Compound(label="Compact tray, tamping", children=list(assembled(True).values()))
 
 
 if __name__ == "__main__":
     empty()
+    bed_ready()
     parked()
     nearly_empty()
     tamp()

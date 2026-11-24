@@ -8,7 +8,11 @@ The current tray holds four items: portafilter, WDT, scale and V60 filters. The 
 
 The [compact study](compact.py) measures **5 in across × 9 in front to back** (127 × 228.6 mm) and retains the **10 mm base**. It is 3 in narrower and 0.5 in shallower than the eight-item tray, about 41% less counter area. The grinder, crank, bottle, dosing ring and tamper cap have no holders or pockets in this version.
 
-![Compact tray with its revised V60 pocket: full stack, thin packet, and empty holder](concepts/compact-four-tool-tray.png)
+![Original cantilevered WDT collar, integrated cape, and four-tool tray with equipment parked](concepts/compact-four-tool-tray.png)
+
+**Integrated WDT cape.** A flared, open-front shell replaces the straight post and unsupported collar. Its curved shoulders grow out of the preceding layers and carry the tapered tool; a 2 mm internal root fillet joins the hem to the deck. The C-shaped seat retains its front release. The paper-pocket lips have 0.55 mm fillets, the WDT rim a 0.6 mm fillet, the lower deck perimeter a 0.6 mm chamfer, and the portafilter seat a 0.45 mm lead-in on its bearing edges. The upper deck retains its 1.6 mm round-over. Chamfers are edge treatments; the cape and its broad root are the structural change.
+
+[Download the flat-bed prototype STL and print notes](prints/compact-four-tool-tray.zip). The print body is one solid, 127 × 228.6 × 109 mm, with its bottom at Z=0. See [print checks and assumptions](prints/PRINT-NOTES.md) before printing; no physical load or fit test is implied.
 
 The portafilter seat and open WDT collar share one front centerline. The handle parks along the open left side. On the right, the papers and scale stand on edge against one shared divider, with their rear edges aligned. The longer scale extends 20.4 mm farther forward than the paper stack, leaving its end exposed. The low outer scale guide, rounded deck edge and warm-stone preview color are unchanged.
 
@@ -16,7 +20,7 @@ The portafilter seat and open WDT collar share one front centerline. The handle 
 
 The nominal holder allowances are 0.5 mm per face and the file slots are 4.5 mm deep, leaving 5.5 mm of deck below. The WDT hangs needles down, with the collar open toward the user. The portafilter keeps its two-way 20 mm head support. Its parked tip is 5.6 mm inside the rear edge; in the tamping pose it extends 137 mm (5.39 in) beyond the front. The deck itself never moves or changes size.
 
-Build from `src/` with `cad run -m coffee_tray.compact` (empty, full stack, nearly empty, and tamping views) and check with `cad run -m coffee_tray.check_compact`. Both seated poses are checked for inter-item intersections. The filter check places a rigid 1 mm packet against either wall and tests a vertical lift corridor spanning the whole opening with the other tools parked. Paper flex, actual needle spread, hand access, print fit and stability under tamping load are unverified. The deck and fixtures remain separate CAD bodies for iteration; this is not a production print file.
+Build from `src/` with `cad run -m coffee_tray.compact` (empty, bed-ready print body, full stack, nearly empty, and tamping views) and check with `cad run -m coffee_tray.check_compact`. Modules keep features editable, but the displayed tray and bed-ready export fuse them. The checks cover both seated poses, the paper lift corridor with a near-empty and full stack, and the front WDT release. Paper flex, actual needle spread, hand access, print fit and stability under tamping load still require physical checks.
 
 ## Earlier eight-item layout
 
@@ -51,9 +55,9 @@ The scale stands on its long edge. Start a width test coupon at **24.5 mm** (23.
 
 ## WDT hanger decision
 
-Use a single straight post rising from the tray and a rigid C-shaped conical collar, open opposite the post. The seat is wider at the top: the tapered handle hangs by gravity and is intended to self-align. Store the tool needles down without loading the tips. For removal, lift the grip clear of the rim and slide the needles sideways through the opening. This replaces the earlier [cup sketch](concepts/wdt_dock.svg).
+For the active compact tray, retain the gravity-seated conical collar and needles-down storage but replace the cantilevered post with the [open cape](wdt_cape.py). The seat is wider at the top; lift the grip clear of the rim, then slide forward through the opening. The [straight-post study](concepts/wdt_open_collar.svg) and [earlier cup sketch](concepts/wdt_dock.svg) are historical alternatives.
 
-**Defer holder refinement until the full equipment mockup exists.** At that point measure the relaxed needle spread, size the slot to pass it without flexing the needles while retaining the grip, and verify that the handle releases without wedging. Set the post height, tip clearance, edge rounding and exit direction against the tray and neighboring gear. The open sides do not shield the needles, so keep them inside the tray perimeter and out of normal hand paths. The sketch is not a dimensioned or print-ready part.
+Before printing, measure the relaxed needle spread and allow clearance relative to the checked 16 mm exit gauge. Do not force a wider bundle through. Verify easy release and tip clearance on the physical print; the open face is not a guard against touching the needles.
 
 ## Reversible portafilter station
 
