@@ -21,3 +21,17 @@ cad server start
 Run models as Python modules from `src/` with `cad run -m <module>`. Use millimetres with +Z up. Store the as-measured dimensions beside each model; distinguish direct measurements, manufacturer specifications and estimates. Never encode an unknown dimension as zero or silently substitute a catalogue size.
 
 For each iteration, commit the source and measurement notes together. Compare the built geometry to the supplied measurements and inspect a preview before accepting the model. During tray design, check the assembled clearances separately. Generated exports are reproducible; release print files deliberately rather than checking them in on every run.
+
+## Download STEP and STL
+
+Open [Export tray CAD](https://github.com/EDToaster/cad-models/actions/workflows/export-cad.yml), select a successful run, and download the `compact-four-tool-tray-<commit>` artifact. It contains the STEP solid and the millimetre STL of the same bed-oriented tray, without equipment. Artifacts are retained for 30 days; use **Run workflow** to regenerate them. CAD-source or workflow changes on pushes to `main` and pull requests targeting `main` trigger a fresh build. Generated binaries are not committed.
+
+To reproduce locally, install the CAD CLI above and the PrusaSlicer CLI (`prusa-slicer`), start the CAD server and run:
+
+```sh
+cd src
+cad run -m coffee_tray.check_compact
+cad run -m coffee_tray.exports
+```
+
+The files appear in `dist/coffee-tray/` at the repository root. The exporter reopens the STEP to check that it is a valid single solid with matching volume, and checks that the normalized STL is one manifold part at Z=0. These checks do not replace slicing or a physical fit check.
