@@ -5,7 +5,7 @@ Model each object as it sits in storage, one at a time. The equipment models rep
 | Order | Reference item | Status |
 | --- | --- | --- |
 | 1 | [Small scale](../equipment/coffee/scale.md) | Simplified reference built; stores on 148.4 mm body edge |
-| 2 | Stack of V60 filter papers | Queued |
+| 2 | [Stack of V60 filter papers](../equipment/coffee/v60_filters.md) | Measured quarter-circle stack modeled; holder orientation open |
 | 3 | Manual WDT tool | Queued |
 | 4 | Normcore tamper | Queued |
 | 5 | Dosing ring / funnel | Queued |
