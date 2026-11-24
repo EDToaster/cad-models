@@ -26,7 +26,7 @@ For each iteration, commit the source and measurement notes together. Compare th
 
 Open [Export tray CAD](https://github.com/EDToaster/cad-models/actions/workflows/export-cad.yml), select a successful run, and download the `compact-four-tool-tray-<commit>` artifact. It contains the STEP solid and the millimetre STL of the same bed-oriented tray, without equipment. Artifacts are retained for 30 days; use **Run workflow** to regenerate them. CAD-source or workflow changes on pushes to `main` and pull requests targeting `main` trigger a fresh build. Generated binaries are not committed.
 
-To reproduce locally, install the CAD CLI above and the PrusaSlicer CLI (`prusa-slicer`), start the CAD server and run:
+To reproduce locally, install the CAD CLI with `uv` as above, start the CAD server and run:
 
 ```sh
 cd src
@@ -34,4 +34,4 @@ cad run -m coffee_tray.check_compact
 cad run -m coffee_tray.exports
 ```
 
-The files appear in `dist/coffee-tray/` at the repository root. The exporter reopens the STEP to check that it is a valid single solid with matching volume, and checks that the normalized STL is one manifold part at Z=0. These checks do not replace slicing or a physical fit check.
+The files appear in `dist/coffee-tray/` at the repository root. The exporter reopens the STEP to check that it is a valid single solid with matching volume. The STL normalizer uses Manifold and trimesh in a separate `uv` environment, verifies one manifold part at Z=0, and checks that its bounds and volume survived the export. No desktop slicer installation is required; these checks do not replace slicing or a physical fit check.

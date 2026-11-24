@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - 'src/**/*.py'
+      - 'scripts/normalize_stl.py'
       - '.github/workflows/export-cad.yml'
   pull_request:
     branches: [main]
     paths:
       - 'src/**/*.py'
+      - 'scripts/normalize_stl.py'
       - '.github/workflows/export-cad.yml'
   workflow_dispatch:
 
@@ -33,12 +35,10 @@ jobs:
           version: '0.13.9'
           python-version: '3.14.8'
           enable-cache: false
-      - name: Install CAD and mesh tools
+      - name: Install CAD
         run: |
           uv tool install 'cad==0.11.17'
           echo "$(uv tool dir --bin)" >> "$GITHUB_PATH"
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends prusa-slicer
       - name: Check fit and export the print body
         working-directory: src
         shell: bash

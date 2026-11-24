@@ -10,7 +10,8 @@ from cad import model
 
 from coffee_tray.compact import bed_ready
 
-OUTPUT = Path(__file__).resolve().parents[2] / "dist" / "coffee-tray"
+ROOT = Path(__file__).resolve().parents[2]
+OUTPUT = ROOT / "dist" / "coffee-tray"
 STEM = "compact-four-tool-tray"
 
 
@@ -29,15 +30,8 @@ def export_tray():
                 and isclose(solid.volume, tray.shape.volume, rel_tol=1e-5)):
             raise ValueError("STEP did not round-trip as the same single solid")
 
-        subprocess.run(["prusa-slicer", "--export-stl", "--output", stl, raw], check=True)
-        info = subprocess.check_output(["prusa-slicer", "--info", stl], text=True)
-        print(info, flush=True)
-        fields = {key.strip(): value.strip() for line in info.splitlines() if "=" in line
-                  for key, value in [line.split("=", 1)]}
-        if fields.get("manifold") != "yes" or fields.get("number_of_parts") != "1":
-            raise ValueError("STL did not round-trip as one manifold part")
-        if not isclose(float(fields["min_z"]), 0.0, abs_tol=0.001):
-            raise ValueError("STL no longer sits flat on the build plate at Z=0")
+        subprocess.run(["uv", "run", "--script", ROOT / "scripts/normalize_stl.py", raw, stl],
+                       check=True)
         for path in (step, stl):
             print(path.replace(OUTPUT / path.name))
 
