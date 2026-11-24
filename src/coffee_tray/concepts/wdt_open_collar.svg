@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="535" viewBox="0 0 920 535" role="img" aria-labelledby="title desc">
+  <title id="title">WDT hanger: a split conical collar on one straight post.</title>
+  <desc id="desc">Top view of the empty C-shaped collar shows an uninterrupted exit through the front. Side elevation shows the tapered handle seated in the collar, with the needles pointing down above the tray. Lift the handle clear first, then slide the needles through the gap.</desc>
+  <rect width="920" height="535" fill="#faf8f3"/>
+  <g font-family="DejaVu Sans, sans-serif" fill="#203b36">
+    <text x="38" y="37" font-size="14" letter-spacing="2" fill="#4c6962">COFFEE TRAY  /  HANGER CONCEPT 02</text>
+    <text x="35" y="81" font-size="37" font-weight="bold">Open-collar WDT hanger</text>
+    <text x="38" y="110" font-size="16" fill="#52685f">One straight post. The tapered handle carries the load.</text>
+    <path d="M458 140 V458" stroke="#c5d0c6" fill="none"/>
+    <text x="39" y="167" font-size="21" font-weight="bold">Top view</text>
+    <text x="39" y="192" font-size="15" fill="#52685f">Empty collar; opening faces away from post.</text>
+    <!-- A parallel-sided slot cuts through both the outer rim and the sloped seat. -->
+    <g transform="translate(15,61)" stroke="#315c54" stroke-width="2.5" stroke-linejoin="round">
+      <rect x="41" y="235" width="54" height="36" rx="5" fill="#67998a"/>
+      <path d="M264 225 A94 94 0 1 0 264 281 L236 281 A68 68 0 1 1 236 225 Z" fill="#9fc4b8"/>
+      <path d="M236 225 A68 68 0 1 0 236 281 L220 281 A54 54 0 1 1 220 225 Z" fill="#78a597"/>
+    </g>
+    <path d="M187 314 H370 M355 303 L370 314 L355 325" fill="none" stroke="#aa572b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="285" y="363" font-size="16" fill="#914a28">Needle exit</text>
+    <text x="494" y="167" font-size="21" font-weight="bold">Side view</text>
+    <text x="494" y="192" font-size="15" fill="#52685f">Lift until the grip clears, then move sideways.</text>
+    <!-- The post is behind the tool, on the side opposite removal. -->
+    <path d="M529 452 V297 Q529 289 537 289 H620 V311 H550 V452 Z" fill="#8ab5a6" stroke="#315c54" stroke-width="2.5" stroke-linejoin="round"/>
+    <rect x="498" y="452" width="354" height="12" rx="3" fill="#9fc4b8" stroke="#315c54" stroke-width="2.5"/>
+    <path d="M605 217 Q605 212 612 212 H679 Q686 212 686 218 L663 323 H627 Z" fill="#514742" stroke="#372f2c" stroke-width="2"/>
+    <path d="M633 323 L627 426 M640 323 L638 427 M649 323 L650 426 M656 323 L663 424" fill="none" stroke="#6c6960" stroke-width="2" stroke-linecap="round"/>
+    <path d="M584 283 Q584 281 588 281 H688 Q692 281 692 285 V305 Q692 308 688 308 H584 Z" fill="#9fc4b8" stroke="#315c54" stroke-width="2.5"/>
+    <path d="M618 281 L624 308 M674 281 L668 308" stroke="#446d61" stroke-dasharray="4 4" stroke-width="1.5" fill="none"/>
+    <path d="M722 272 V228 Q722 219 732 219 H801 M790 211 L801 219 L790 227" fill="none" stroke="#aa572b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="698" y="403" font-size="15" fill="#52685f">Tips hang free</text>
+    <text x="38" y="506" font-size="14" fill="#52685f">Schematic only. Slot width, seat diameter and post height depend on the measured tool.</text>
+  </g>
+</svg>
