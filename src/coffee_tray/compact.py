@@ -13,6 +13,9 @@ PF, WDT = (41, 43), (102, 43)
 REAR_LINE = 216.0  # common back line for scale and filter stack
 SCALE_X, PAPER_X = 110.5, 74.5  # scale center and paper stack left edge
 SIDE_GAP, SLOT_DEPTH = 0.5, 4.5
+WALL = 2.4
+PAPER_GUIDE_HEIGHTS = (80.0, 86.0)  # outer wall and shared divider, above deck
+PAPER_SCOOP = 46.0
 
 
 def _finish(part, name):
@@ -42,7 +45,7 @@ def deck():
 
 
 def _cheek(x, height):
-    """Open ends and a scooped upper edge. The middle divider serves both slots."""
+    """Original low outer guide for the scale."""
     start, end = 92, 212
     mid = (start + end) / 2
     with bd.BuildLine() as outline:
@@ -53,13 +56,48 @@ def _cheek(x, height):
         bd.Bezier((mid, height * 0.60), (mid - 13, height * 0.60),
                   (start + 30, height), (start + 16, height))
         bd.Bezier((start + 16, height), (start + 1, height), (start + 2, 3), (start, 0))
-    return bd.Pos(X=x) * (bd.Plane.YZ * bd.extrude(bd.Face(outline.wire()), amount=2.4))
+    return bd.Pos(X=x) * (bd.Plane.YZ * bd.extrude(bd.Face(outline.wire()), amount=WALL))
+
+
+def _paper_wall(x, crown, scoop):
+    """A high front shoulder, a finger scoop, then a lower shoulder under the arc."""
+    front = REAR_LINE - v60_filters.FILTER_RADIUS - SIDE_GAP
+    rear = REAR_LINE + SIDE_GAP
+    mid = front + 58
+    with bd.BuildLine() as outline:
+        bd.Polyline((front, 0), (rear, 0), (rear, 15))
+        bd.Bezier((rear, 15), (rear - 9, 17), (rear - 15, crown - 13),
+                  (rear - 34, crown - 13))
+        bd.Bezier((rear - 34, crown - 13), (rear - 48, crown - 13),
+                  (mid + 13, scoop), (mid, scoop))
+        bd.Bezier((mid, scoop), (mid - 16, scoop),
+                  (front + 33, crown), (front + 21, crown))
+        bd.Bezier((front + 21, crown), (front + 6, crown),
+                  (front + 4, 23), (front, 19))
+        bd.Line((front, 19), (front, 0))
+    return bd.Pos(X=x) * (bd.Plane.YZ * bd.extrude(bd.Face(outline.wire()), amount=WALL))
+
+
+def _paper_pocket():
+    left = PAPER_X - SIDE_GAP
+    clear_width = v60_filters.STACK_THICKNESS + 2 * SIDE_GAP
+    front = REAR_LINE - v60_filters.FILTER_RADIUS - SIDE_GAP
+    rear = REAR_LINE + SIDE_GAP
+    outer, divider = PAPER_GUIDE_HEIGHTS
+    sides = _paper_wall(left - WALL, outer, PAPER_SCOOP)
+    sides += _paper_wall(left + clear_width, divider, PAPER_SCOOP + 9)
+    # End stops connect both walls outside the clear opening; the deck is the floor.
+    for y, h in ((front - WALL, 19), (rear, 15)):
+        sides += bd.Pos(left - WALL, y, 0) * bd.Box(
+            clear_width + 2 * WALL, WALL, h, align=(bd.Align.MIN,) * 3
+        )
+    return sides
 
 
 @model
 def files():
-    rails = [_cheek(x, h) for x, h in ((71.2, 16), (95.5, 25), (123.0, 20))]
-    return _finish(bd.Compound(children=rails), "Shared file rack")
+    return _finish(bd.Compound(children=[_paper_pocket(), _cheek(123.0, 20)]),
+                   "Deep V60 pocket and scale guide")
 
 
 @model
@@ -102,6 +140,22 @@ def parked():
     return bd.Compound(label="Compact tray, parked", children=list(groups().values()))
 
 
+def thin_packet(right=False):
+    """Illustrative 1 mm remaining stack, against either wall; not sheet thickness."""
+    thin = v60_filters.stack_envelope(1.0)
+    x = (PAPER_X + v60_filters.STACK_THICKNESS + SIDE_GAP - 1.0
+         if right else PAPER_X - SIDE_GAP)
+    return (bd.Pos(x, REAR_LINE - v60_filters.FILTER_RADIUS, -SLOT_DEPTH)
+            * bd.Rot(Z=90) * bd.Rot(X=90) * thin)
+
+
+@model
+def nearly_empty():
+    pieces = groups()
+    pieces["papers"] = thin_packet(right=True)
+    return bd.Compound(label="Compact tray, nearly empty filter pocket", children=list(pieces.values()))
+
+
 @model
 def tamp():
     return bd.Compound(label="Compact tray, tamping", children=list(groups(True).values()))
@@ -110,4 +164,5 @@ def tamp():
 if __name__ == "__main__":
     empty()
     parked()
+    nearly_empty()
     tamp()

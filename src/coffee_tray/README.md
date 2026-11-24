@@ -8,13 +8,15 @@ The current tray holds four items: portafilter, WDT, scale and V60 filters. The 
 
 The [compact study](compact.py) measures **5 in across × 9 in front to back** (127 × 228.6 mm) and retains the **10 mm base**. It is 3 in narrower and 0.5 in shallower than the eight-item tray, about 41% less counter area. The grinder, crank, bottle, dosing ring and tamper cap have no holders or pockets in this version.
 
-![Compact tray with its four tools, empty fixtures, and storage plan](concepts/compact-four-tool-tray.png)
+![Compact tray with its revised V60 pocket: full stack, thin packet, and empty holder](concepts/compact-four-tool-tray.png)
 
-The portafilter seat and open WDT collar share one front centerline. The handle parks along the open left side. On the right, the papers and scale stand on edge against one shared divider, with their rear edges aligned. The longer scale extends 20.4 mm farther forward than the paper stack, leaving its end exposed. Three low, curved guides, a rounded deck edge and a single warm-stone preview color keep the parts visually related. The color is illustrative.
+The portafilter seat and open WDT collar share one front centerline. The handle parks along the open left side. On the right, the papers and scale stand on edge against one shared divider, with their rear edges aligned. The longer scale extends 20.4 mm farther forward than the paper stack, leaving its end exposed. The low outer scale guide, rounded deck edge and warm-stone preview color are unchanged.
+
+**Deep V60 pocket:** Thin stacks can lean against either side. The two paper walls now rise to 80 and 86 mm above the deck, up from 16 and 25 mm, without widening the 21 mm opening. The deck recess stays 4.5 mm deep. The near wall dips to 46 mm at the finger scoop so a small packet can be pinched from the side, and low end stops keep the papers from sliding lengthwise. The 1 mm packet is an illustrative near-empty condition, not a measured sheet thickness.
 
 The nominal holder allowances are 0.5 mm per face and the file slots are 4.5 mm deep, leaving 5.5 mm of deck below. The WDT hangs needles down, with the collar open toward the user. The portafilter keeps its two-way 20 mm head support. Its parked tip is 5.6 mm inside the rear edge; in the tamping pose it extends 137 mm (5.39 in) beyond the front. The deck itself never moves or changes size.
 
-Build from `src/` with `cad run -m coffee_tray.compact` (empty, parked and tamping views) and check with `cad run -m coffee_tray.check_compact`. Both seated poses were checked for inter-item intersections using the modeled solids. Actual needle spread, hand access, print fit and stability under tamping load are unverified. The deck and fixtures remain separate CAD bodies for iteration; this is not a production print file.
+Build from `src/` with `cad run -m coffee_tray.compact` (empty, full stack, nearly empty, and tamping views) and check with `cad run -m coffee_tray.check_compact`. Both seated poses are checked for inter-item intersections. The filter check places a rigid 1 mm packet against either wall and tests a vertical lift corridor spanning the whole opening with the other tools parked. Paper flex, actual needle spread, hand access, print fit and stability under tamping load are unverified. The deck and fixtures remain separate CAD bodies for iteration; this is not a production print file.
 
 ## Earlier eight-item layout
 

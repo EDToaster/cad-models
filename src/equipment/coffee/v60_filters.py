@@ -8,18 +8,25 @@ FILTER_RADIUS = 128.0
 STACK_THICKNESS = 20.0
 
 
-@model
-def v60_filter_stack():
-    """Place the fold's right-angle corner at the origin, straight edges on +X/+Y."""
+def stack_envelope(thickness):
+    """Quarter-circle stack with a given thickness, straight edges on +X and +Y."""
+    if thickness <= 0:
+        raise ValueError("Stack thickness must be positive")
     stack = bd.Cylinder(
         radius=FILTER_RADIUS,
-        height=STACK_THICKNESS,
+        height=thickness,
         arc_size=90,
         align=(bd.Align.MIN, bd.Align.MIN, bd.Align.MIN),
     )
     stack.label = "Folded V60 filter stack"
     stack.color = "#dfcfae"
     return stack
+
+
+@model
+def v60_filter_stack():
+    """Owner-measured full stack, independent of the tray's fit allowance."""
+    return stack_envelope(STACK_THICKNESS)
 
 
 if __name__ == "__main__":
