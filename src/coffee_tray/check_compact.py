@@ -5,10 +5,40 @@ import build123d as bd
 from coffee_tray.check_layout import check_groups
 from coffee_tray.compact import (
     DEPTH, THICKNESS, WIDTH, PAPER_X, REAR_LINE, SIDE_GAP, SLOT_DEPTH,
-    WDT, assembled, empty, groups, thin_packet,
+    PF, WDT, SCALE_X, assembled, empty, groups, station, thin_packet,
 )
 from coffee_tray.holders import BASE_ALIGN
 from equipment.coffee.v60_filters import FILTER_RADIUS, STACK_THICKNESS
+from coffee_tray.portafilter_station import FLOOR_Z, HEIGHT
+from equipment.coffee import gaggia_portafilter, scale
+
+
+def check_station_and_fins():
+    # Keep the basket and plastic grip out of the load path. Check actual
+    # closest surfaces, not just the vertical offset between two datum planes.
+    tray = empty().shape
+    seat = station().shape
+    assert seat.is_inside((*PF, FLOOR_Z-0.05)) and not seat.is_inside((*PF, FLOOR_Z+0.05))
+    pads = [f for f in seat.faces() if f.bounding_box().min.Z > HEIGHT-1e-5]
+    assert len(pads) == 2 and all(f.area > 200 for f in pads)
+    body, basket, neck, grip = gaggia_portafilter.components()
+    for angle in (90, -90):
+        pose = bd.Pos(*PF, HEIGHT) * bd.Rot(Z=angle)
+        assert tray.distance_to(pose * body) < 1e-4, "metal head not seated"
+        gaps = [tray.distance_to(pose * s) for s in (basket, neck, grip)]
+        assert all(g > min_g for g, min_g in zip(gaps, (4.0, 1.99, 1.99))), gaps
+        print(f"{angle:+}° seat: nearest basket {gaps[0]:.2f}, neck {gaps[1]:.2f}, "
+              f"grip {gaps[2]:.2f} mm; nominal center-floor clearance {HEIGHT-FLOOR_Z:g} mm")
+    # Protect the entire original scale-slot envelope, including nominal side
+    # allowance, through a straight lift. No strength fillet may intrude.
+    corridor = bd.Pos(SCALE_X, REAR_LINE-scale.LENGTH/2, -SLOT_DEPTH) * bd.Box(
+        scale.THICKNESS + 2*SIDE_GAP, scale.LENGTH, 2*scale.WIDTH,
+        align=BASE_ALIGN,
+    )
+    for name, obj in assembled().items():
+        if name != "scale":
+            assert _overlap(corridor, obj) < 1e-4, f"scale lift blocked by {name}"
+    print(f"Two metal bearing lands, total {sum(f.area for f in pads):.1f} mm²; scale lift clear")
 
 
 def check_paper_pocket():
@@ -81,6 +111,7 @@ def check_cape():
 
 
 if __name__ == "__main__":
+    check_station_and_fins()
     for tamping in (False, True):
         check_groups(groups(tamping), WIDTH, DEPTH, THICKNESS, tamping)
     check_paper_pocket()

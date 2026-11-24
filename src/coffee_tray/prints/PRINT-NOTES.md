@@ -8,10 +8,18 @@ The open cape keeps the old conical handle seat but replaces the unsupported rin
 
 The geometry is intended to spread bending loads into the deck. No physical print, load test or strength rating has been performed. Do not tamp using the WDT holder. Check the portafilter bearing, stability and grip clearance on a real print before applying tamping force.
 
+## Portafilter, paper and scale fit
+
+The 20 mm pedestal has a 6 mm central recess instead of a through-opening; 14 mm of pedestal height remains below the pocket, above the 10 mm deck. The center is part of the print body, not a request for 100% infill. The pedestal has a 3 mm radius at its base, a 2.3 mm radius at the pocket floor and rounded lips and neck cutouts. Two flat lands under the rigid metal head total 476.5 mm² in CAD. With either handle orientation the nearest modeled basket surface clears by 4.29 mm, the basket center by 6 mm vertically and the neck by 2.00 mm. Grip clearance is 2.00 mm in storage and 15.19 mm pointing forward.
+
+The model assumes that the installed basket bottom sits flush with the underside of the metal head; the real projection and contact band are unmeasured. With the portafilter unloaded, check that both sides of the metal head sit flat without rocking and that the basket, neck and grip do not touch the tray. Check counter grip and stability before applying force.
+
+The paper walls and shared divider are 3.2 mm thick; the low outer scale fin is 3.0 mm. The outer paper wall, divider and outer scale fin respectively have 3, 1.25 and 1.5 mm fillets where they meet the deck. The 21 mm paper slot and 24.5 mm scale slot retain their full lift corridors. Confirm easy removal on the physical print, especially around the scale feet.
+
 ## Digital checks
 
 - The CAD export is one solid. After STL normalization, PrusaSlicer reported one manifold part; CGAL found a closed triangle mesh with no self-intersections. This independent mesh check supplements a bounded CAD face self-intersection check on the freeform cape.
-- The FDM geometry check, deck down, reported no downward-facing area below its 45° threshold and zero estimated support volume. Sampled minimum tray wall thickness was 2.4 mm; this is not a load rating.
+- The FDM geometry check, deck down, reported no downward-facing area below its 45° threshold and zero estimated support volume. Sampled minimum wall thickness was 3.0 mm; this is not a load rating.
 - The supplied STL was sliced in **PrusaSlicer 2.9.4**, using a generic 256 × 256 mm bed, 0.4 mm nozzle, 0.2 mm layers, four perimeters and 20% infill. Automatic support generation was **enabled at 45°**, with bridges not exempted. The slice emitted **no support-material toolpaths**. Ordinary bridge infill within the part is not removable support. Re-slice with your actual printer and material profile, and inspect the layer preview before printing.
 
 ## Rebuild from source

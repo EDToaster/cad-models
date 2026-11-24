@@ -81,15 +81,21 @@ def _handle():
     return neck, grip
 
 
+def components():
+    """Separate reference solids for checking metal bearing, basket and grip clearance."""
+    neck, grip = _handle()
+    return _head(), _basket(), neck, grip
+
+
 @model
 def gaggia_portafilter():
     """Basket axis at X=Y=0, lowest basket point at Z=0, handle along +X."""
-    neck, grip = _handle()
-    head = _head() + neck
+    body, basket, neck, grip = components()
+    head = body + neck
     head.label, head.color = "Bottomless metal head and neck", "#929b9f"
     return bd.Compound(
         label="Gaggia bottomless portafilter reference",
-        children=[head, _basket(), grip],
+        children=[head, basket, grip],
     )
 
 

@@ -8,9 +8,13 @@ The current tray holds four items: portafilter, WDT, scale and V60 filters. The 
 
 The [compact study](compact.py) measures **5 in across × 9 in front to back** (127 × 228.6 mm) and retains the **10 mm base**. It is 3 in narrower and 0.5 in shallower than the eight-item tray, about 41% less counter area. The grinder, crank, bottle, dosing ring and tamper cap have no holders or pockets in this version.
 
-![Original cantilevered WDT collar, integrated cape, and four-tool tray with equipment parked](concepts/compact-four-tool-tray.png)
+![One-piece tray with thicker fins, and a transverse CAD section through the filled pedestal, portafilter head and basket](concepts/compact-four-tool-tray.png)
 
-**Integrated WDT cape.** A flared, open-front shell replaces the straight post and unsupported collar. Its curved shoulders grow out of the preceding layers and carry the tapered tool; a 2 mm internal root fillet joins the hem to the deck. The C-shaped seat retains its front release. The paper-pocket lips have 0.55 mm fillets, the WDT rim a 0.6 mm fillet, the lower deck perimeter a 0.6 mm chamfer, and the portafilter seat a 0.45 mm lead-in on its bearing edges. The upper deck retains its 1.6 mm round-over. Chamfers are edge treatments; the cape and its broad root are the structural change.
+**Filled portafilter pedestal.** A shallow pocket replaces the open ring. The [pedestal](portafilter_station.py) stands 20 mm above the deck, with 14 mm beneath the center of the pocket and 6 mm free directly beneath the modeled basket. A 3 mm base fillet blends into the deck, a 2.3 mm fillet rounds the pocket floor, and 1.25 mm outer and 1.1 mm inner lip radii preserve two flat metal-head bearing lands. Opposing neck cutouts have 3.5 mm lower and 1.5 mm upper radii. See [the seating check](#reversible-portafilter-station) before applying tamping force.
+
+**Paper and scale fins.** Both tall paper walls, including the shared divider, are 3.2 mm thick; the low outer scale guide is 3.0 mm. Their exposed deck junctions use 3, 1.25 and 1.5 mm root fillets respectively. The equipment lift corridors remain clear: 21 mm across for paper, 24.5 mm for the scale.
+
+**Integrated WDT cape.** A flared, open-front shell replaces the straight post and unsupported collar. Its curved shoulders carry the tapered tool; a 2 mm internal root fillet joins the hem to the deck. The C-shaped seat retains its front release. The paper-pocket lips have 0.55 mm fillets and the WDT rim has a 0.6 mm fillet. The deck retains its 0.6 mm lower chamfer and 1.6 mm upper round-over.
 
 [Download the flat-bed prototype STL and print notes](prints/compact-four-tool-tray.zip). The print body is one solid, 127 × 228.6 × 109 mm, with its bottom at Z=0. See [print checks and assumptions](prints/PRINT-NOTES.md) before printing; no physical load or fit test is implied.
 
@@ -63,9 +67,9 @@ Before printing, measure the relaxed needle spread and allow clearance relative 
 
 One seat, two placements: handle toward the user for tamping, toward the wall for storage. The basket stays upright and on the same centerline. Lift, turn 180° and reseat; this does not require clearance for a horizontal sweep while seated. Run `cad run -m coffee_tray.portafilter_poses` from `src/` to inspect the two alternatives.
 
-The black grip hangs 18 mm below the portafilter head. For both mockup poses, the **head underside is 20 mm above the local tray deck**: 18 mm measured drop plus a provisional 2 mm air gap. At 18 mm it would just touch. This is a placement requirement over a flat deck, not a finished holder height. The metal neck also passes below the basket, so relieve its path on both sides. Recheck against any raised lip or adjacent item and under tamping load when refining the station.
+The black grip hangs 18 mm below the portafilter head. In both poses on the compact tray the head sits 20 mm above the deck and contacts two flat lands totaling 476.5 mm² in the model. The closest basket-to-tray distance is 4.29 mm, versus 6 mm vertically at the center. The metal neck clears by 2.00 mm in both directions. The grip clears the complete tray by 2.00 mm in storage and 15.19 mm pointing forward, where its low point is beyond the front edge.
 
-Reserve opposing handle/neck openings and clear the ears in both poses. The design intent is to keep the basket rim level under tamping force and support the rigid metal head directly over the base, not the plastic grip or perforated basket floor. Confirm a usable metal contact surface on the real part. Reserve center-to-wall reach plus hand/placement clearance for storage; the present model reaches 180 mm behind center. Check rear wall, front overhang, adjacent gear, basket underside clearance, skid/tip resistance and loaded stability at refinement. No station geometry or load rating has been set.
+The underside of the installed basket is provisionally flush with the metal bearing face. Measure the actual basket projection below that face, and check on the print that both sides of the metal head sit flat without the basket, neck or grip bearing weight. The modeled contact area is not a physical measurement or a load rating. Check for rocking or sliding before tamping, and reserve the modeled 180 mm center-to-tip reach plus hand clearance at the wall.
 
 ## Detached K6 handle parking
 
