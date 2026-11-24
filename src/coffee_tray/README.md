@@ -4,7 +4,7 @@ Model each object as it sits in storage, one at a time. The equipment models rep
 
 | Order | Reference item | Status |
 | --- | --- | --- |
-| 1 | Small scale | Awaiting first measurements |
+| 1 | [Small scale](../equipment/coffee/scale.md) | Simplified reference built; stores on 148.4 mm body edge |
 | 2 | Stack of V60 filter papers | Queued |
 | 3 | Manual WDT tool | Queued |
 | 4 | Normcore tamper | Queued |
@@ -12,4 +12,4 @@ Model each object as it sits in storage, one at a time. The equipment models rep
 | 6 | Portafilter with basket and handle | Queued |
 | 7 | KINGrinder K6 with crank and knob | Queued |
 
-Start the scale from its widest left-to-right and front-to-back dimensions and its height from the counter to the top. Include the feet and any mat that stays on in storage. If the weighing platform overhangs the base, distinguish those two footprints before designing its pocket.
+The scale stands on its long edge. Start a width test coupon at **24.5 mm** (23.5 mm measured thickness + 0.5 mm clearance per face), not a press fit. This is a trial CAD opening, not a guaranteed as-printed size. Print the coupon with the tray's material, orientation and settings; check that the scale drops in and lifts out without dragging its four load-cell feet. Adjust the tray allowance from the coupon, not the scale model.
