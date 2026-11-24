@@ -1,10 +1,22 @@
 # Coffee gear tray
 
-Model each object as it sits in storage, one at a time. The equipment models represent the real objects. Tray pockets, finger access and room to lift pieces out come later.
+The current tray holds four items: portafilter, WDT, scale and V60 filters. The earlier eight-item layout and all equipment references are retained for comparison.
 
 **Footprint rule for all holders:** minimize the tray area each holder adds beyond the parked item. Compare layouts with the gear in place, including overhangs. Preserve stable support and a clear path for fingers and removal; a smaller printed base is not a saving if the same space must stay empty.
 
-## First complete tray layout
+## Compact four-tool tray
+
+The [compact study](compact.py) measures **5 in across × 9 in front to back** (127 × 228.6 mm) and retains the **10 mm base**. It is 3 in narrower and 0.5 in shallower than the eight-item tray, about 41% less counter area. The grinder, crank, bottle, dosing ring and tamper cap have no holders or pockets in this version.
+
+![Compact tray with its four tools, empty fixtures, and storage plan](concepts/compact-four-tool-tray.png)
+
+The portafilter seat and open WDT collar share one front centerline. The handle parks along the open left side. On the right, the papers and scale stand on edge against one shared divider, with their rear edges aligned. The longer scale extends 20.4 mm farther forward than the paper stack, leaving its end exposed. Three low, curved guides, a rounded deck edge and a single warm-stone preview color keep the parts visually related. The color is illustrative.
+
+The nominal holder allowances are 0.5 mm per face and the file slots are 4.5 mm deep, leaving 5.5 mm of deck below. The WDT hangs needles down, with the collar open toward the user. The portafilter keeps its two-way 20 mm head support. Its parked tip is 5.6 mm inside the rear edge; in the tamping pose it extends 137 mm (5.39 in) beyond the front. The deck itself never moves or changes size.
+
+Build from `src/` with `cad run -m coffee_tray.compact` (empty, parked and tamping views) and check with `cad run -m coffee_tray.check_compact`. Both seated poses were checked for inter-item intersections using the modeled solids. Actual needle spread, hand access, print fit and stability under tamping load are unverified. The deck and fixtures remain separate CAD bodies for iteration; this is not a production print file.
+
+## Earlier eight-item layout
 
 The [working mockup](layout.py) uses a **9.5 × 8 in (241.3 × 203.2 mm) footprint and a 10 mm deck**. In this version the long side runs toward the wall. The 10 mm is the base thickness before pockets, not a height limit on holders or gear.
 
@@ -51,7 +63,7 @@ Reserve opposing handle/neck openings and clear the ears in both poses. The desi
 
 ## Detached K6 handle parking
 
-**Decision: Option B, with a lower-profile holder.** Keep the lid on edge and the crank upright. The [full tray layout](#first-complete-tray-layout) trials a shorter arm guide and smaller base. Lowering the guide alone does not lower the parked knob. The image and measurements below document the original comparison, not the revised rack.
+**Decision for the eight-item layout: Option B, with a lower-profile holder.** Keep the lid on edge and the crank upright. The [eight-item layout](#earlier-eight-item-layout) trials a shorter arm guide and smaller base. Lowering the guide alone does not lower the parked knob. The image and measurements below document the original comparison, not the revised rack.
 
 ![Low cradle and upright rack, with the actual crank parked and removed](concepts/k6-handle-docks.png)
 

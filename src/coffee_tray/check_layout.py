@@ -6,9 +6,6 @@ Run from src/: cad run -m coffee_tray.check_layout
 from itertools import combinations
 from math import isclose
 
-from coffee_tray.layout import DEPTH, THICKNESS, WIDTH, groups
-
-
 def _positive_box_overlap(a, b):
     return all(
         min(hi_a, hi_b) > max(lo_a, lo_b) + 1e-6
@@ -16,16 +13,15 @@ def _positive_box_overlap(a, b):
     )
 
 
-def check(tamping):
-    parts = groups(tamping=tamping)
+def check_groups(parts, width, depth, thickness, tamping):
     boxes = {key: obj.bounding_box() for key, obj in parts.items()}
     deck_size = boxes["deck"].size
     assert all(isclose(a, b, abs_tol=1e-5)
-               for a, b in zip(deck_size, (WIDTH, DEPTH, THICKNESS)))
+               for a, b in zip(deck_size, (width, depth, thickness)))
     assert all(s.is_valid for s in parts.values())
     for name, box in boxes.items():
-        assert box.min.X >= -1e-5 and box.max.X <= WIDTH+1e-5, name
-        assert box.max.Y <= DEPTH+1e-5, name
+        assert box.min.X >= -1e-5 and box.max.X <= width+1e-5, name
+        assert box.max.Y <= depth+1e-5, name
         if not (tamping and name == "portafilter"):
             assert box.min.Y >= -1e-5, name
     collisions = []
@@ -50,5 +46,7 @@ def check(tamping):
 
 
 if __name__ == "__main__":
-    check(False)
-    check(True)
+    from coffee_tray.layout import DEPTH, THICKNESS, WIDTH, groups
+
+    for tamping in (False, True):
+        check_groups(groups(tamping), WIDTH, DEPTH, THICKNESS, tamping)

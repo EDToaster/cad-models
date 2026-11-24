@@ -2,9 +2,9 @@
 
 import build123d as bd
 from cad import model
-from math import sqrt
 
 from coffee_tray.k6_handle_docks import deck_rack, upright_position
+from coffee_tray.holders import open_wdt_hanger, two_way_riser
 from coffee_tray.portafilter_poses import storage_pose, tamping_pose
 from equipment.coffee import dosing_ring, muji_spray_bottle, normcore_tamper_cap
 from equipment.coffee import scale, v60_filters, wdt
@@ -78,28 +78,12 @@ def file_guides():
 
 @model
 def pf_riser():
-    # Support the head's outer annulus. The cut runs in both handle directions.
-    ring = bd.Circle(34.5) - bd.Circle(31)
-    seat = bd.extrude(ring, amount=20)
-    seat -= bd.Pos(Z=19) * bd.Box(22, 80, 12)
-    return _styled(_at(PF) * seat, "Provisional two-way head support")
+    return _styled(_at(PF) * two_way_riser(), "Provisional two-way head support")
 
 
 @model
 def wdt_hanger():
-    # Matched tapered section, open to the front. Slot and spread are provisional.
-    r = wdt.BOTTOM_DIAMETER / 2
-    dr = wdt.MAX_DIAMETER/2 - r
-    slope = dr / sqrt(wdt.TAPER_SLANT**2-dr**2)
-    z0, z1 = 16.0, 24.0  # above the handle's needle face
-    needle_face = 5.0 + wdt.NEEDLE_REACH
-    h = z1-z0
-    collar = bd.Cylinder(18.75, h, align=BASE_ALIGN) - bd.Cone(
-        r+z0*slope, r+z1*slope, h, align=BASE_ALIGN
-    )
-    collar -= _block(-7, -22, -1, 14, 22, h+2)
-    post = _block(-3, 15.5, 0, 6, 6, needle_face+z1)
-    return _styled(_at(WDT) * (post + bd.Pos(Z=needle_face+z0)*collar), "WDT hanger")
+    return _styled(_at(WDT) * open_wdt_hanger(), "WDT hanger")
 
 
 def groups(tamping=False):
