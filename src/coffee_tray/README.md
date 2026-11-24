@@ -4,6 +4,24 @@ Model each object as it sits in storage, one at a time. The equipment models rep
 
 **Footprint rule for all holders:** minimize the tray area each holder adds beyond the parked item. Compare layouts with the gear in place, including overhangs. Preserve stable support and a clear path for fingers and removal; a smaller printed base is not a saving if the same space must stay empty.
 
+## First complete tray layout
+
+The [working mockup](layout.py) uses a **9.5 × 8 in (241.3 × 203.2 mm) footprint and a 10 mm deck**. In this version the long side runs toward the wall. The 10 mm is the base thickness before pockets, not a height limit on holders or gear.
+
+![Plan and oblique view with equipment key](concepts/tray-layout-v1.png)
+
+The raised, reversible portafilter seat is at the front left. The tamper cap and dosing ring sit at the front; scale and papers stand on edge along the right side, sharing a divider. The grinder and detached crank park separately. A **46 × 46 mm base and 102 mm guide** replace Option B's original 85 × 62 mm base and 116 mm guide; the knob still sets the assembly height at 185.5 mm above the deck (195.5 mm above the counter). The bottle sits between the portafilter and crank, clear of both in the parked model.
+
+![Portafilter storage and tamping compared at the same scale](concepts/tray-portafilter-clearance.png)
+
+**The footprint is met in storage, not while tamping.** The basket center is 49 mm behind the front edge. Its modeled 180 mm handle reach puts the parked tip 12.3 mm inside the rear edge and the forward tip 131 mm (5.16 in) past the front edge. This is a temporary equipment overhang, not extra tray material. Both opposite tips cannot fit inside this rectangle with a single fixed seat, even diagonally: their separation is 360 mm versus a 315.5 mm deck diagonal. If no overhang is acceptable, revisit the one-seat requirement before refining the layout.
+
+Round pockets are 2.5 mm deep; file slots are 4.5 mm deep, leaving at least 5.5 mm of floor. The starting allowance is 0.5 mm per side, not a validated print fit. The WDT hangs with 5 mm nominal tip clearance. Nozzle settings, printed tolerances, needle spread, one-handed access, tall-item stability and the metal bearing surface under tamping force still need verification. Only the measured tamper **cap** is modeled: the tamper above it must be checked for overhang and hand access.
+
+Build from `src/` with `cad run -m coffee_tray.layout`, then run `cad run -m coffee_tray.check_layout`. The checker compares solids between the equipment, supports and deck and tests the footprint in both seated poses, not the swing from one to the other. Lift and reseat the portafilter. The compact crank rack's 8 mm lift followed by a 45 mm forward slide was sampled every 1 mm against its holder alone (`coffee_tray.check_k6_handle_docks`). These are layout studies, not a load-rated or print-ready assembly.
+
+## Equipment references
+
 | Order | Reference item | Status |
 | --- | --- | --- |
 | 1 | [Small scale](../equipment/coffee/scale.md) | Simplified reference built; stores on 148.4 mm body edge |
@@ -12,7 +30,7 @@ Model each object as it sits in storage, one at a time. The equipment models rep
 | 4 | [Normcore V4 tamper cap](../equipment/coffee/normcore_tamper_cap.md) | Cap exterior modeled; the cap, not the 58.5 mm tamper base, locates in the tray |
 | 5 | [Dosing ring](../equipment/coffee/dosing_ring.md) | Straight ring modeled, including its through bore |
 | 6 | [Gaggia bottomless portafilter](../equipment/coffee/gaggia_portafilter.md) | Measured drop at neck and grip; raised handle-forward and handle-rearward poses |
-| 7 | [KINGrinder K6, lid/crank and knob](../equipment/coffee/kingrinder_k6.md) | [Option B: upright rack](#detached-k6-handle-parking) selected, with a lower-profile holder to explore in the full mockup; park separately if space permits |
+| 7 | [KINGrinder K6, lid/crank and knob](../equipment/coffee/kingrinder_k6.md) | Separate upright parking fits in the first layout; compact version of [Option B](#detached-k6-handle-parking) |
 | 8 | [Small MUJI spray bottle](../equipment/coffee/muji_spray_bottle.md) | Upright cylindrical reference, Ø24.40 × 86 mm; holder depth and clearance deferred |
 
 The scale stands on its long edge. Start a width test coupon at **24.5 mm** (23.5 mm measured thickness + 0.5 mm clearance per face), not a press fit. This is a trial CAD opening, not a guaranteed as-printed size. Print the coupon with the tray's material, orientation and settings; check that the scale drops in and lifts out without dragging its four load-cell feet. Adjust the tray allowance from the coupon, not the scale model.
@@ -33,7 +51,7 @@ Reserve opposing handle/neck openings and clear the ears in both poses. The desi
 
 ## Detached K6 handle parking
 
-**Decision: Option B, with a lower-profile holder.** Keep the lid on edge and the crank upright. In the full mockup, try a shorter arm guide and use the tray deck instead of a broad standalone base wherever it can provide the same stability. Lowering the guide alone does not lower the parked knob. Final holder dimensions are deferred; the image and measurements below document the original comparison, not a revised design.
+**Decision: Option B, with a lower-profile holder.** Keep the lid on edge and the crank upright. The [full tray layout](#first-complete-tray-layout) trials a shorter arm guide and smaller base. Lowering the guide alone does not lower the parked knob. The image and measurements below document the original comparison, not the revised rack.
 
 ![Low cradle and upright rack, with the actual crank parked and removed](concepts/k6-handle-docks.png)
 

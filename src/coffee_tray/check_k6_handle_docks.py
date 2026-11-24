@@ -6,6 +6,7 @@ From src/: cad run -m coffee_tray.check_k6_handle_docks
 import build123d as bd
 
 from coffee_tray.k6_handle_docks import (
+    deck_rack,
     low_cradle,
     low_position,
     upright_position,
@@ -41,6 +42,10 @@ def main():
     _check(
         "upright", upright_rack().shape, upright_position() * crank,
         [(0, z) for z in range(21)] + [(-x, 20) for x in range(1, 81)],
+    )
+    _check(
+        "compact deck rack", deck_rack().shape, upright_position() * crank,
+        [(0, z) for z in range(9)] + [(-x, 8) for x in range(1, 46)],
     )
 
 

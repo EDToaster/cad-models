@@ -73,10 +73,8 @@ def low_cradle():
     return _holder(base + seat_wall + fence + arm_pad, "Low lid-and-arm cradle")
 
 
-@model
-def upright_rack():
-    """A V supports the lid edge; shallow cheeks and an open fork steady the crank."""
-    base = _plate(-73, 12, 62, 10)
+def _upright_rack(front_edge, width, corner, guide_top):
+    base = _plate(front_edge, 12, width, corner)
     # The lid spans X=[-13.75,-10.25]. Low cheeks flank it without hitting its
     # underside lip. A circular lid is free to roll without the higher arm guide.
     front = -LID_TOP - SIDE_PLAY
@@ -87,16 +85,28 @@ def upright_rack():
     # Sloped underside carries both fork tips back into the spine. No overhead
     # loop: after lifting the lid above the cheeks the arm exits toward -X.
     side = bd.Plane.XZ * bd.Polygon(
-        (1.5, DECK - 1), (10.5, DECK - 1), (10.5, 116),
-        (-26, 116), (-26, 105), (1.5, 77.5), align=None,
+        (1.5, DECK - 1), (10.5, DECK - 1), (10.5, guide_top),
+        (-26, guide_top), (-26, guide_top-11), (1.5, guide_top-38.5), align=None,
     )
     post = bd.Pos(Y=8) * bd.extrude(side, amount=16)
     throat = ARM_R + SIDE_PLAY
     slot_back = -ARM_CENTER_Z + throat
-    slot = bd.Pos((slot_back - 40) / 2, 0, 109) * bd.Box(
+    slot = bd.Pos((slot_back - 40) / 2, 0, guide_top-7) * bd.Box(
         slot_back + 40, 2 * throat, 65
     )
     return _holder(base + pad + (post - slot), "Upright lid-edge rack")
+
+
+@model
+def upright_rack():
+    """Original freestanding-footprint study, retained for comparison."""
+    return _upright_rack(-73, 62, 10, 116)
+
+
+@model
+def deck_rack():
+    """Compact Option B for the shared tray, not a freestanding stand."""
+    return _upright_rack(-34, 46, 6, 102)
 
 
 @model
