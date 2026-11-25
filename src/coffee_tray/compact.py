@@ -10,6 +10,8 @@ from coffee_tray.wdt_cape import ROOT_FILLET, cape
 from equipment.coffee import scale, v60_filters, wdt
 
 WIDTH, DEPTH, THICKNESS = 127.0, 228.6, 10.0
+# Exact nominal foot pockets, deliberately independent of holder fit allowances.
+FOOT_DIAMETER, FOOT_DEPTH, FOOT_EDGE_OFFSET = 11.0, 3.0, 10.0
 STONE = "#cab8a0"  # Presentation color; no material or finish is specified.
 PF, WDT = (41, 43), (102, 43)
 REAR_LINE = 216.0  # common back line for scale and filter stack
@@ -46,6 +48,10 @@ def deck():
                    v60_filters.STACK_THICKNESS, v60_filters.FILTER_RADIUS)
     # Shallow, wipeable depression directly below the suspended needle tips.
     plate -= bd.Pos(*WDT, 70 - 1.2) * bd.Sphere(70)
+    cutter = bd.Cylinder(FOOT_DIAMETER / 2, FOOT_DEPTH, align=BASE_ALIGN)
+    for x in (FOOT_EDGE_OFFSET, WIDTH - FOOT_EDGE_OFFSET):
+        for y in (FOOT_EDGE_OFFSET, DEPTH - FOOT_EDGE_OFFSET):
+            plate -= bd.Pos(x, y, -THICKNESS) * cutter
     return _finish(plate, "Soft-edge deck")
 
 

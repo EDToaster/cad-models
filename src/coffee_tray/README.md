@@ -10,6 +10,10 @@ The [compact study](compact.py) measures **5 in across × 9 in front to back** (
 
 ![One-piece tray with thicker fins, and a transverse CAD section through the filled pedestal, portafilter head and basket](concepts/compact-four-tool-tray.png)
 
+**Underside feet.** Four flat-bottomed recesses are exactly Ø11 mm × 3 mm deep in CAD, with no fit allowance, taper or entrance chamfer. Each center is 10 mm from its two adjoining nominal edges; spacing is 107 × 208.6 mm center to center. The 10 mm deck leaves 7 mm above the recesses except where the rear-right one overlaps the scale slot, where 2.5 mm of material remains. The pockets do not break through.
+
+![Underside of the compact tray showing the four corner foot recesses and a dimensioned detail](concepts/compact-four-tool-tray-underside.png)
+
 **Filled portafilter pedestal.** A shallow pocket replaces the open ring. The [pedestal](portafilter_station.py) stands 20 mm above the deck, with 14 mm beneath the center of the pocket and 6 mm free directly beneath the modeled basket. A 3 mm base fillet blends into the deck, a 2.3 mm fillet rounds the pocket floor, and 1.25 mm outer and 1.1 mm inner lip radii preserve two flat metal-head bearing lands. Opposing neck cutouts have 3.5 mm lower and 1.5 mm upper radii. See [the seating check](#reversible-portafilter-station) before applying tamping force.
 
 **Paper and scale fins.** Both tall paper walls, including the shared divider, are 3.2 mm thick; the low outer scale guide is 3.0 mm. Their exposed deck junctions use 3, 1.25 and 1.5 mm root fillets respectively. The equipment lift corridors remain clear: 21 mm across for paper, 24.5 mm for the scale.

@@ -1,5 +1,7 @@
 """Run with cad run -m coffee_tray.check_compact from src/."""
 
+from math import isclose, pi
+
 import build123d as bd
 
 from coffee_tray.check_layout import check_groups
@@ -11,6 +13,32 @@ from coffee_tray.holders import BASE_ALIGN
 from equipment.coffee.v60_filters import FILTER_RADIUS, STACK_THICKNESS
 from coffee_tray.portafilter_station import FLOOR_Z, HEIGHT
 from equipment.coffee import gaggia_portafilter, scale
+
+
+def check_foot_pockets():
+    # Inspect the final solid, not the cutters: four circular straight walls
+    # must reach the underside, terminate at a flat ceiling and stay blind.
+    tray = empty().shape
+    bottom = tray.bounding_box().min.Z
+    close = lambda a, b: isclose(a, b, abs_tol=1e-5)
+    pockets = {}
+    for face in tray.faces():
+        bounds = face.bounding_box()
+        if face.geom_type != bd.GeomType.CYLINDER or not close(bounds.min.Z, bottom):
+            continue
+        assert close(2 * face.radius, 11.0) and close(bounds.size.Z, 3.0)
+        cx, cy, _ = bounds.center()
+        pockets[round(cx, 4), round(cy, 4)] = bounds.max.Z
+    assert set(pockets) == {(10.0, 10.0), (117.0, 10.0), (10.0, 218.6), (117.0, 218.6)}
+    for (x, y), z in pockets.items():
+        roofs = [f for f in tray.faces() if f.geom_type == bd.GeomType.PLANE
+                 and (f.center() - bd.Vector(x, y, z)).length < 1e-5]
+        assert len(roofs) == 1 and close(roofs[0].area, pi * 5.5**2)
+        # Prove the full footprint has at least 2.5 mm of deck, even where
+        # the rear-right pocket sits below the 4.5 mm deep scale slot.
+        web = bd.Pos(x, y, z) * bd.Cylinder(5.5, 2.5, align=BASE_ALIGN)
+        assert close(_overlap(tray, web), web.volume)
+    print("Four blind underside pockets: Ø11 × 3 mm, 10 mm edge offsets, ≥2.5 mm deck above")
 
 
 def check_station_and_fins():
@@ -111,6 +139,7 @@ def check_cape():
 
 
 if __name__ == "__main__":
+    check_foot_pockets()
     check_station_and_fins()
     for tamping in (False, True):
         check_groups(groups(tamping), WIDTH, DEPTH, THICKNESS, tamping)
